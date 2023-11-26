@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+//Longest path between any two nodes
 struct Node
 {
     int data;
