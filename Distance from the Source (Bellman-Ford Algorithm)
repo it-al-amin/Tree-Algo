@@ -1,0 +1,46 @@
+class Solution {
+  public:
+    /*  Function to implement Bellman Ford
+    *   edges: vector of vectors which represents the graph
+    *   S: source vertex to start traversing graph with
+    *   V: number of vertices
+    */
+    vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
+        // Code here
+        vector<int>dis(V,1e8);
+        dis[S]=0;
+        for(int i=1;i<V;i++)
+        {
+            for(auto it:edges )
+            {
+                int u=it[0];
+                int v=it[1];
+                int wt=it[2];
+                if(dis[u]!=1e8&&dis[u]+wt<dis[v])
+                {
+                    dis[v]=dis[u]+wt;
+                }
+            }
+        }
+        // for negative cycle nth iteration is reduced
+        bool f=0;
+        for(auto it:edges )
+            {
+                int u=it[0];
+                int v=it[1];
+                int wt=it[2];
+                if(dis[u]!=1e8&&dis[u]+wt<dis[v])
+                {
+                    f=1;
+                    dis[v]=dis[u]+wt;
+                }
+            }
+            if(f)
+            {
+                vector<int>d;
+                d.push_back(-1);
+                return  d;
+            }
+            return  dis;
+    }
+};
