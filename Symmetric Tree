@@ -1,0 +1,58 @@
+vector<int>v,v1;
+class Solution{
+    
+    void solve(Node* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        solve(root->left);
+        solve(root->right);
+        v.push_back(root->data);
+    
+        
+    }
+    void solve1(Node* root)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        solve1(root->right);
+        solve1(root->left);
+        v1.push_back(root->data);
+       
+        
+    }
+    public:
+    // return true/false denoting whether the tree is Symmetric or not
+    bool isSymmetric(struct Node* root)
+    {
+	    // Code here
+	    if(root==NULL)
+	    {
+	        return 1;
+	    }
+	    v.clear();
+	    v1.clear();
+	    solve(root->left);
+	    solve1(root->right);
+	    if(v.empty()&&v1.empty())
+	    {
+	        return 1;
+	    }
+	    if(v.size()!=v1.size())
+	    {
+	        return 0;
+	    }
+	    for(int i=0;i<v.size();i++)
+	    {
+	        if(v[i]!=v1[i])
+	        {
+	            return 0;
+	        }
+	    }
+	    return 1;
+    }
+};
