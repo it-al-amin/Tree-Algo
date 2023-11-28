@@ -1,0 +1,54 @@
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+class Solution
+{
+bool f=0;
+void solve(Node* root,Node* root1)
+    {
+        if(root==NULL&&root1==NULL)
+        {
+            return;
+        }
+        if(root==NULL&&root1!=NULL||root!=NULL&&root1==NULL)//check if any one is accept NULL value
+        {
+            f=1;
+            return;
+        }
+        if(root->data!=root1->data&&root!=NULL&&root1!=NULL)//check data
+        {
+            f=1;
+            return;
+        }
+        if(root==NULL&&root1!=NULL||root!=NULL&&root1==NULL)//check if any one is accept NULL value
+        {
+            f=1;
+            return;
+        }
+         solve(root->left,root1->left);
+         solve(root->right,root1->right);
+        
+    }
+    public:
+    //Function to check if two trees are identical.
+    bool isIdentical(Node *r1, Node *r2)
+    {
+        //Your Code here
+      
+	     solve(r1,r2);
+	     if(!f)
+	     {
+	         return 1;
+	     }
+	     return 0;
+    }
+};
