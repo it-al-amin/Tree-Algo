@@ -1,0 +1,85 @@
+
+class Solution
+{
+    bool f=0;
+    vector<int>v1,v2;
+   void solve(Node* root,int parent,int k)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(k==0&&parent<=root->data)//left portion
+        {
+            f=1;
+           
+        }
+        if(k==1&&parent>=root->data)//right portion
+        {
+            f=1;
+           
+        }
+        if((root->left)!=NULL&&(root->right!=NULL))
+        {
+            int d=root->data;
+            int l=root->left->data;
+            int r=root->right->data;
+            if(d<=l||l>=r||d>=r)
+            {
+                f=1;
+               
+            }
+        }
+          solve(root->left,root->data,0);
+          solve(root->right,root->data,1);
+        
+        
+    }
+    void solve1(Node* root,int k)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+       if(k==0)
+       {
+           v1.push_back(root->data);
+       }
+       else
+       {
+           v2.push_back(root->data);
+       }
+          solve1(root->left,k);
+          solve1(root->right,k);
+        
+        
+    }
+    public:
+    //Function to check whether a Binary Tree is BST or not.
+    bool isBST(Node* root) 
+    {
+        // Your code here
+        if(root==NULL)
+        {
+            return 1;
+        }
+         solve1(root->left,0);
+         solve1(root->right,1);
+         sort(v1.begin(),v1.end());
+         sort(v2.begin(),v2.end());
+         if(!v1.empty()&&v1[v1.size()-1]>=root->data)
+         {
+             return 0;
+         }
+         if(!v2.empty()&&root->data>=v2[0])
+         {
+             return 0;
+         }
+         if(!v1.empty()&&!v2.empty()&&v1[v1.size()-1]>=v2[0])
+         {
+             return 0;
+         }
+        solve(root,root->data,-1);
+        return !f;
+    }
+};
