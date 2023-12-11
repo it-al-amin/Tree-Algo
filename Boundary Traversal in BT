@@ -1,0 +1,82 @@
+class Solution {
+   
+    void solveLeft(Node* root,vector<int>&v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left||root->right)
+        {
+            v.push_back(root->data);
+            if(root->left)
+            {
+                solveLeft(root->left,v);
+            }
+            else 
+            {
+                solveLeft(root->right,v);
+            }
+        }
+    }
+    void solveLeaf(Node* root,vector<int>&v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left==NULL&&root->right==NULL)
+        {
+            v.push_back(root->data);
+        }
+        solveLeaf(root->left,v);
+        solveLeaf(root->right,v);
+            
+        
+    }
+    void solveRight(Node* root,stack<int>&v)
+    {
+        if(root==NULL)
+        {
+            return;
+        }
+        if(root->left||root->right)
+        {
+            v.push(root->data);
+            if(root->right)
+            {
+                solveRight(root->right,v);
+            }
+            else 
+            {
+                solveRight(root->left,v);
+            }
+        }
+    }
+public:
+    vector <int> boundary(Node *root)
+    {
+        //Your code here
+        vector<int>ans;
+        if(root==NULL)
+        {
+            return ans;
+        }
+        ans.push_back(root->data);
+        if(root->left==NULL&&root->right==NULL)
+        {
+            return ans;
+        }
+        solveLeft(root->left,ans);
+        solveLeaf(root,ans);
+        stack<int>st;
+        solveRight(root->right,st);
+        while(!st.empty())
+        {
+            ans.push_back(st.top());
+            st.pop();
+        }
+        return ans;
+    }
+};
+
