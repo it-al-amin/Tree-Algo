@@ -1,0 +1,114 @@
+//Function to return a list containing elements of left view of the binary tree.
+Node* solve1(Node* root);
+
+int p, k;
+Node* temp;
+void printNode(Node* root)
+{
+    if(root==NULL)
+    {
+        return;
+    }
+    cout<<root->data<<" ";
+    printNode(root->left);
+    printNode(root->right);
+}
+void solve(Node* root, vector<int>&v){
+    if (root == NULL){
+         return;
+    }
+    p++;
+    if (temp == NULL) {
+        if (root->left && root->right) {
+            temp = root; // store if right portion is longer than left;
+        }
+        else {
+            k++;
+        } 
+    }
+    v.push_back(root->data);
+    if (root->left) {
+        solve(root->left, v);
+    } 
+    else if (root->right) {
+        solve(root->right, v);
+    } 
+    else {
+        if (temp) { // left portion is over
+        
+            root = solve1(temp); // root node where left and right are present
+            
+            temp = NULL;
+            if (root){ // get a new portion of left
+                //cout<<root->data<<"\n";
+                solve(root,v); // call this function again;
+            }
+            
+        }
+    }
+}
+
+Node* solve1(Node* root) {
+   queue<Node*>q;
+   if(root->right){
+     q.push(root->right);
+   }
+   k++;
+   Node* TempNode=NULL;
+   while(!q.empty())
+   {
+       int size=q.size();
+       k++;
+       if(k==p)
+       {
+        for(int i=0;i<size;i++)
+         {
+            Node* tempNode=q.front(); 
+            q.pop();
+            if(tempNode->left)
+            {
+               TempNode=tempNode->left;
+               break;
+            }
+            if(tempNode->right)
+            {
+                TempNode=tempNode->right;
+                break;
+            }
+          }
+           break;
+       }
+       for(int i=0;i<size;i++)
+       {
+            Node* tempNode=q.front(); 
+            q.pop();
+            //cout<<tempNode->data<<" "; 
+            if(tempNode->left)
+            {
+                q.push(tempNode->left);
+            }
+            if(tempNode->right)
+            {
+                q.push(tempNode->right);
+            }
+       }
+      // cout<<endl;
+   }
+   return TempNode;
+}
+
+vector<int> leftView(Node* root) {
+    // Your code here
+    vector<int> ans;
+    if (root == NULL) {
+        return ans;
+    }
+    //printNode(root);
+    //cout<<"\n";
+    p = 0;
+    k = 0;
+    temp = NULL;
+    solve(root, ans);
+
+    return ans;
+}
